@@ -1,5 +1,5 @@
 ﻿@using System
-@using System.Diagnostics
+@using OneOf
 @using Maps
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components
@@ -13,28 +13,28 @@
 <div @ref="@Element" id="@Id" class="@CssClass" style="@StyleStr"></div>
 
 @code {
-    [Parameter]
-    public string Id { get; set; }
+        [Parameter]
+        public string Id { get; set; }
 
-    [Parameter]
-    public MapOptions Options { get; set; }
+        [Parameter]
+        public MapOptions Options { get; set; }
 
-    [Parameter]
-    public Action OnAfterInit { get; set; }
+        [Parameter]
+        public Action OnAfterInit { get; set; }
 
-    [Parameter]
-    public string CssClass { get; set; }
+        [Parameter]
+        public string CssClass { get; set; }
 
-    private string _height = "500px";
+        private string _height = "500px";
 
-    /// <summary>
-    /// Default height 500px
-    /// </summary>
-    [Parameter]
-    public string Height
-    {
-        get => _height;
-        set => _height = value ?? "500px";
+        /// <summary>
+        /// Default height 500px
+        /// </summary>
+        [Parameter]
+        public OneOf<string, int> Height
+        {
+            get => _height;
+            set => _height = value.Value == null ? "500px" : value.IsT0 ? value.AsT0 : $"{value.AsT1.ToString()}px";
     }
 
     private string StyleStr => $"height: {Height};";
